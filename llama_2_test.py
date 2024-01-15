@@ -1,3 +1,9 @@
+#llama 2 interface:
+#https://huggingface.co/meta-llama
+#https://huggingface.co/blog/llama2
+
+
+
 from transformers import AutoTokenizer
 import transformers
 import torch
@@ -10,7 +16,7 @@ def main():
     pipeline = transformers.pipeline(
         "text-generation",
         model=model,
-        torch_dtype=torch.float32,
+        torch_dtype=torch.float32, #change to float16 for faster inference on gpu
         device_map="auto",
     )
 
@@ -22,8 +28,10 @@ def main():
         eos_token_id=tokenizer.eos_token_id,
         max_length=200,
     )
+    print(sequences)
     for seq in sequences:
         print(f"Result: {seq['generated_text']}")
+        print('!')
 
 
 
